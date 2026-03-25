@@ -23,12 +23,18 @@
       function getHairColor(r, g, b) {
         let avg = (r + g + b) / 3;
 
+        // 1. kõigepealt hele → blond
         if (avg > 170) return "blond";
-        if (r > 150 && r > g + 30 && r > b + 30) return "punapea";
-        if (avg > 60 && avg <= 170) return "brünett";
+
+        // 2. siis kontrolli punast
+        if (r > g + 40 && r > b + 40) return "punapea";
+
+        // 3. ülejäänud tumedam → brünett
+       if (avg > 60) return "brünett";
+
         return "muu";
       }
-
+      
       function capture() {
         g.drawImage(player, 0, 0, c.width, c.height);
 
