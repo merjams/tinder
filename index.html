@@ -5,101 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smash / Pass</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #0f172a, #1e293b);
       color: white;
-      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      height: 100vh;
     }
 
-    .app {
-      width: 100%;
-      max-width: 900px;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-    }
-
-    .card, .panel {
+    .card {
       background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(255,255,255,0.12);
+      padding: 20px;
       border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
     }
 
-    .image-wrap {
-      position: relative;
+    img {
       width: 100%;
-      aspect-ratio: 4 / 5;
-      overflow: hidden;
-      border-radius: 18px;
-      background: #111827;
-    }
-
-    .image-wrap img {
-      width: 100%;
-      height: 100%;
+      height: 400px;
       object-fit: cover;
-      display: block;
-    }
-
-    .overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 18px;
-      background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.15);
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    h1, h2, h3, p {
-      margin: 0;
+      border-radius: 15px;
     }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
     }
 
     button {
+      flex: 1;
+      padding: 12px;
       border: none;
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: 10px;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: bold;
       cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
     }
 
     .smash {
@@ -111,233 +61,52 @@
       background: #ef4444;
       color: white;
     }
-
-    .next {
-      background: #38bdf8;
-      color: white;
-      margin-top: 10px;
-      width: 100%;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .stat {
-      background: rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .stat .label {
-      font-size: 13px;
-      color: #cbd5e1;
-    }
-
-    .stat .value {
-      font-size: 28px;
-      font-weight: 800;
-      margin-top: 4px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 14px 0 0;
-      max-height: 280px;
-      overflow: auto;
-    }
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 14px;
-    }
-
-    li img {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      object-fit: cover;
-      flex: 0 0 auto;
-    }
-
-    .muted {
-      color: #cbd5e1;
-      font-size: 14px;
-      margin-top: 8px;
-    }
-
-    .empty {
-      color: #94a3b8;
-      font-size: 14px;
-      padding-top: 10px;
-    }
-
-    @media (max-width: 800px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="card">
-      <h1>Smash / Pass</h1>
-      <p class="muted">Vajuta nuppu ja järgmine pilt tuleb ette.</p>
+  <div class="card">
+    <h1>Smash / Pass</h1>
+    <img id="photo" src="" alt="Pilt" />
+    <h2 id="title"></h2>
 
-      <div style="margin-top:16px;">
-        <div class="image-wrap">
-          <img id="photo" src="" alt="Pilt" />
-          <div class="overlay">
-            <div class="badge" id="category">Kategooria</div>
-            <h2 id="title">Pealkiri</h2>
-            <p id="counter" style="margin-top:8px; color:#e2e8f0;">0 / 0</p>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <button class="smash" onclick="smash()">Smash</button>
-          <button class="pass" onclick="passPhoto()">Pass</button>
-        </div>
-
-        <button class="next" onclick="nextPhoto()">Järgmine pilt</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h3>Statistika</h3>
-      <div class="stats">
-        <div class="stat">
-          <div class="label">Smash</div>
-          <div class="value" id="smashCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="label">Pass</div>
-          <div class="value" id="passCount">0</div>
-        </div>
-      </div>
-
-      <h3 style="margin-top:18px;">Viimased valikud</h3>
-      <ul id="history"></ul>
+    <div class="buttons">
+      <button class="smash" onclick="smash()">Smash</button>
+      <button class="pass" onclick="passPhoto()">Pass</button>
     </div>
   </div>
 
   <script>
     const images = [
-      {
-        url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
-        title: "Mägi ja järv",
-        category: "Loodus"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80",
-        title: "Koer",
-        category: "Loomad"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=80",
-        title: "Linnatänav",
-        category: "Linn"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-        title: "Mets",
-        category: "Loodus"
-      },
-      {
-        url: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=1200&q=80",
-        title: "Kass",
-        category: "Loomad"
-      }
+      { url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb", title: "Mägi" },
+      { url: "https://images.unsplash.com/photo-1517841905240-472988babdf9", title: "Koer" },
+      { url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e", title: "Linn" }
     ];
 
     let currentIndex = 0;
-    let smashCount = 0;
-    let passCount = 0;
-    let history = [];
 
     const photo = document.getElementById("photo");
     const title = document.getElementById("title");
-    const category = document.getElementById("category");
-    const counter = document.getElementById("counter");
-    const smashEl = document.getElementById("smashCount");
-    const passEl = document.getElementById("passCount");
-    const historyEl = document.getElementById("history");
 
     function renderPhoto() {
       const current = images[currentIndex];
-
-      if (!current) {
-        photo.src = "";
-        title.textContent = "Pilte pole";
-        category.textContent = "";
-        counter.textContent = "0 / 0";
-        return;
-      }
-
       photo.src = current.url;
       title.textContent = current.title;
-      category.textContent = current.category;
-      counter.textContent = `${currentIndex + 1} / ${images.length}`;
-    }
-
-    function renderStats() {
-      smashEl.textContent = smashCount;
-      passEl.textContent = passCount;
-
-      historyEl.innerHTML = "";
-
-      if (history.length === 0) {
-        historyEl.innerHTML = '<li class="empty">Veel pole valikuid tehtud.</li>';
-        return;
-      }
-
-      history.slice(-8).reverse().forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <img src="${item.url}" alt="${item.title}">
-          <div>
-            <strong>${item.title}</strong><br>
-            <span style="color:#cbd5e1; font-size:13px;">${item.action}</span>
-          </div>
-        `;
-        historyEl.appendChild(li);
-      });
     }
 
     function nextPhoto() {
-      if (images.length === 0) return;
       currentIndex = (currentIndex + 1) % images.length;
       renderPhoto();
     }
 
     function smash() {
-      if (images.length === 0) return;
-      smashCount++;
-      history.push({ ...images[currentIndex], action: "Smash" });
-      renderStats();
       nextPhoto();
     }
 
     function passPhoto() {
-      if (images.length === 0) return;
-      passCount++;
-      history.push({ ...images[currentIndex], action: "Pass" });
-      renderStats();
       nextPhoto();
     }
 
     renderPhoto();
-    renderStats();
   </script>
 </body>
 </html>
