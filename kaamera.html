@@ -33,25 +33,24 @@
         g.drawImage(player, 0, 0, c.width, c.height);
 
         // Näo keskkoht on siia käsitsi alguses pandud
-        // Kui tahad, et see liiguks päriselt näo järgi, peab lisama näotuvastuse
         let faceX = 110;
         let faceY = 90;
         let faceW = 100;
         let faceH = 100;
 
-        // Juukseala näo kohal
-        let hairX = faceX - 10;
-        let hairY = faceY - 70;
-        let hairW = faceW + 20;
-        let hairH = 40;
+        // Väiksem kast vasakul näo kõrval
+        let hairW = 30;
+        let hairH = 30;
+        let hairX = faceX - hairW - 10;
+        let hairY = faceY + faceH / 2 - hairH / 2;
 
-        // Piirame et ei läheks kaadrist välja
+        // Piirame, et kast ei läheks kaadrist välja
         hairX = Math.max(0, hairX);
         hairY = Math.max(0, hairY);
         hairW = Math.min(c.width - hairX, hairW);
         hairH = Math.min(c.height - hairY, hairH);
 
-        // Kast liigub juusteni
+        // Kast
         g.strokeStyle = "red";
         g.lineWidth = 2;
         g.strokeRect(hairX, hairY, hairW, hairH);
