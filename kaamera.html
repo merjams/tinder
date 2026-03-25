@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Juuksevärvi tuvastus</title>
+    <script>
+      let player = null, c = null, g = null, g2 = null, s1 = null;
+
+      function start() {
+        player = document.getElementById("v1");
+        c = document.getElementById("c1");
+        g = c.getContext("2d");
+        g2 = document.getElementById("c2").getContext("2d");
+        s1 = document.getElementById("s1");
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+          player.srcObject = stream;
+        });
+
+        setInterval(capture, 500);
+      }
+
+      function getHairColor(r, g, b) {
+        let avg = (r + g + b) / 3;
+
+        if (avg > 170) return "blond";
+        if (r > 150 && r > g + 30 && r > b + 30) return "punapea";
+        if (avg > 60 && avg <= 170) return "brünett";
+        return "muu";
+      }
+
+      function capture() {
+        g.drawImage(player, 0, 0, c.width, c.height);
+
+        // Näo keskkoht on siia käsitsi alguses pandud
+        // Kui tahad, et see liiguks päriselt näo järgi, peab lisama näotuvastuse
+        let faceX = 110;
+        let faceY = 90;
+        let faceW = 100;
+        let faceH = 100;
+
+        // Juukseala näo kohal
+        let hairX = faceX - 10;
+        let hairY = faceY - 70;
+        let hairW = faceW + 20;
+        let hairH = 40;
+
+        // Piirame et ei läheks kaadrist välja
+        hairX = Math.max(0, hairX);
+        hairY = Math.max(0, hairY);
+        hairW = Math.min(c.width - hairX, hairW);
+        hairH = Math.min(c.height - hairY, hairH);
+
+        // Kast liigub juusteni
+        g.strokeStyle = "red";
+        g.lineWidth = 2;
+        g.strokeRect(hairX, hairY, hairW, hairH);
+
+        let d = g.getImageData(hairX, hairY, hairW, hairH);
+        g2.putImageData(d, 0, 0);
+
+        let data = d.data;
+        let rSum = 0, gSum = 0, bSum = 0;
+        let count = data.length / 4;
+
+        for (let i = 0; i < data.length; i += 4) {
+          rSum += data[i];
+          gSum += data[i + 1];
+          bSum += data[i + 2];
+        }
+
+        let r = rSum / count;
+        let gVal = gSum / count;
+        let b = bSum / count;
+
+        let color = getHairColor(r, gVal, b);
+        s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → ${color}`;
+      }
+    </script>
+  </head>
+
+  <body onload="start()">
+    <video id="v1" autoplay style="width: 45%"></video>
+    <canvas id="c1" width="320" height="240" style="width: 45%"></canvas><br />
+    <canvas id="c2" width="40" height="40"></canvas><br />
+    <span id="s1"></span>
+  </body>
+</html>
