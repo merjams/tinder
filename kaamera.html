@@ -18,22 +18,41 @@
         });
 
         setInterval(capture, 500);
-      }
+}
 
-      function getHairColor(r, g, b) {
-        let avg = (r + g + b) / 3;
+     function getHairColor(r, g, b) {
+  let avg = (r + g + b) / 3;
 
-        // 1. kõigepealt hele → blond
-        if (avg > 170) return "blond";
+  // kui väga tume → brünett
+  if (avg < 65) return "brünett";
 
-        // 2. siis kontrolli punast
-        if (r > g + 40 && r > b + 40) return "punapea";
+  // arvutame kui "soe" (punakas) värv on
+  let redDominance = r - (g + b) / 2;
 
-        // 3. ülejäänud tumedam → brünett
-       if (avg > 60) return "brünett";
+  // arvutame kui tasakaalus värv on (blondile omane)
+  let maxDiff = Math.max(
+    Math.abs(r - g),
+    Math.abs(r - b),
+    Math.abs(g - b)
+  );
 
-        return "muu";
-      }
+  // 🔴 punapea → punane peab SELGELT domineerima
+  if (redDominance > 45 && r > 120) {
+    return "punapea";
+  }
+
+  // 🟡 blond → hele + värvid suhteliselt võrdsed
+  if (avg > 160 && maxDiff < 50) {
+    return "blond";
+  }
+
+  // 🟤 helepruun / keskmine → brünett
+  if (avg >= 65 && avg <= 160) {
+    return "brünett";
+  }
+
+  return "muu";
+}
       
       function capture() {
         g.drawImage(player, 0, 0, c.width, c.height);
