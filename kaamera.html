@@ -36,17 +36,17 @@
     Math.abs(g - b)
   );
 
-  // 🔴 punapea → punane peab SELGELT domineerima
+  // punapea → punane peab SELGELT domineerima
   if (redDominance > 45 && r > 120) {
     return "punapea";
   }
 
-  // 🟡 blond → hele + värvid suhteliselt võrdsed
+  // blond → hele + värvid suhteliselt võrdsed
   if (avg > 160 && maxDiff < 50) {
     return "blond";
   }
 
-  // 🟤 helepruun / keskmine → brünett
+  // helepruun / keskmine → brünett
   if (avg >= 65 && avg <= 160) {
     return "brünett";
   }
