@@ -24,6 +24,14 @@
       max-width: 500px;
       text-align: center;
     }
+    
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
 
     img {
       width: 100%;
@@ -50,7 +58,6 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      align-items: left;
     }
 
     .smash {
@@ -67,12 +74,13 @@
 <body>
   <div class="card">
     <h1>Smash / Pass</h1>
-    <img id="photo" src="" alt="Pilt" />
-    <h2 id="title"></h2>
 
-    <div class="buttons">
-      <button class="smash" onclick="smash()">Smash</button>
+    <div class="content">
       <button class="pass" onclick="passPhoto()">Pass</button>
+
+      <img id="photo" src="" alt="Pilt" />
+
+      <button class="smash" onclick="smash()">Smash</button>
     </div>
   </div>
 
