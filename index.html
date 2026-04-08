@@ -84,86 +84,102 @@ button:hover {
 
       <img id="photo">
 
-      <button class="smash" onclick="swipeRight()">SMASH</button>
+      <button class="smash" onclick="swipeRight()">SMASH ❤️🔥</button>
     </div>
   </div>
 
   <script>
-    const images = [
-      { url: "https://i.pinimg.com/736x/14/60/94/1460947fd15187687b8473107f7e57ce.jpg"},
-      { url: "https://i.pinimg.com/1200x/99/30/01/993001a8036c6c55d04ef77b5c5c5a77.jpg"},
-      { url: "https://i.pinimg.com/736x/3b/89/7b/3b897b01b0fc7ae3eafe196b143630b1.jpg"},
-      { url: "https://i.pinimg.com/736x/d6/e2/c2/d6e2c2e436bde7d06b82f1f5a2fb9914.jpg"},
-      { url: "https://i.pinimg.com/736x/10/1d/f6/101df662809f4a961ff3ec8bcb1d8384.jpg"},
-    ];
+  const images = [
+    { url: "https://i.pinimg.com/736x/14/60/94/1460947fd15187687b8473107f7e57ce.jpg"},
+    { url: "https://i.pinimg.com/1200x/99/30/01/993001a8036c6c55d04ef77b5c5c5a77.jpg"},
+    { url: "https://i.pinimg.com/736x/3b/89/7b/3b897b01b0fc7ae3eafe196b143630b1.jpg"},
+    { url: "https://i.pinimg.com/736x/d6/e2/c2/d6e2c2e436bde7d06b82f1f5a2fb9914.jpg"},
+    { url: "https://i.pinimg.com/736x/10/1d/f6/101df662809f4a961ff3ec8bcb1d8384.jpg"},
+  ];
 
-    let currentIndex = 0;
-    const photo = document.getElementById("photo");
+  let currentIndex = 0;
+  const photo = document.getElementById("photo");
 
-    let startX = 0;
-    let currentX = 0;
-    let isDragging = false;
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
 
-    function renderPhoto() {
-      photo.style.transform = "translateX(0) rotate(0deg)";
-      photo.src = images[currentIndex].url;
-    }
+  function renderPhoto() {
+    photo.style.transition = "none";
+    photo.style.transform = "translateX(0) rotate(0deg)";
+    photo.style.opacity = "0";
 
-    function nextPhoto() {
-      currentIndex = (currentIndex + 1) % images.length;
-      setTimeout(renderPhoto, 200);
-    }
+    photo.src = images[currentIndex].url;
 
-    function swipeRight() {
-      photo.style.transform = "translateX(600px) rotate(20deg)";
-      nextPhoto();
-    }
+    setTimeout(() => {
+      photo.style.transition = "transform 0.5s ease, opacity 0.3s ease";
+      photo.style.opacity = "1";
+    }, 50);
+  }
 
-    function swipeLeft() {
-      photo.style.transform = "translateX(-600px) rotate(-20deg)";
-      nextPhoto();
-    }
-
-    // DRAG
-    photo.addEventListener("mousedown", startDrag);
-    photo.addEventListener("touchstart", startDrag);
-
-    function startDrag(e) {
-      isDragging = true;
-      startX = e.touches ? e.touches[0].clientX : e.clientX;
-    }
-
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("touchmove", drag);
-
-    function drag(e) {
-      if (!isDragging) return;
-
-      currentX = e.touches ? e.touches[0].clientX : e.clientX;
-      let diff = currentX - startX;
-
-      photo.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
-    }
-
-    document.addEventListener("mouseup", endDrag);
-    document.addEventListener("touchend", endDrag);
-
-    function endDrag() {
-      if (!isDragging) return;
-      isDragging = false;
-
-      let diff = currentX - startX;
-
-      if (diff > 120) {
-        swipeRight();
-      } else if (diff < -120) {
-        swipeLeft();
-      } else {
-        photo.style.transform = "translateX(0)";
-      }
-    }
-
+  function nextPhoto() {
+    currentIndex = (currentIndex + 1) % images.length;
     renderPhoto();
-  </script>
+  }
+
+  function swipeRight() {
+    photo.style.transform = "translateX(1000px) rotate(30deg)";
+    photo.style.opacity = "0";
+
+    setTimeout(() => {
+      nextPhoto();
+    }, 400);
+  }
+
+  function swipeLeft() {
+    photo.style.transform = "translateX(-1000px) rotate(-30deg)";
+    photo.style.opacity = "0";
+
+    setTimeout(() => {
+      nextPhoto();
+    }, 400);
+  }
+
+  // DRAG
+  photo.addEventListener("mousedown", startDrag);
+  photo.addEventListener("touchstart", startDrag);
+
+  function startDrag(e) {
+    isDragging = true;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+  }
+
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("touchmove", drag);
+
+  function drag(e) {
+    if (!isDragging) return;
+
+    currentX = e.touches ? e.touches[0].clientX : e.clientX;
+    let diff = currentX - startX;
+
+    photo.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
+  }
+
+  document.addEventListener("mouseup", endDrag);
+  document.addEventListener("touchend", endDrag);
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+
+    let diff = currentX - startX;
+
+    if (diff > 120) {
+      swipeRight();
+    } else if (diff < -120) {
+      swipeLeft();
+    } else {
+      photo.style.transform = "translateX(0)";
+    }
+  }
+
+  renderPhoto();
+</script>
 </body>
 </html>
