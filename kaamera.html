@@ -100,6 +100,10 @@
         let color = getHairColor(r, gVal, b);
         s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → ${color}`;
       }
+      function doGet(e){
+        let leht=SpreadsheetApp.openById("1tqQLEHG3mJW3zzP8UpCJaq2AYg1tAUbTzzpqBWAOO54").getSheets()[0];
+          leht.getRange(1,1).setValue(parseInt(e.parameter.color));
+      }
     </script>
   </head>
 
