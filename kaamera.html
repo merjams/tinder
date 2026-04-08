@@ -5,6 +5,7 @@
     <title>Juuksevärvi tuvastus</title>
     <script>
       let player = null, c = null, g = null, g2 = null, s1 = null;
+      let lastSent = 0; // piirab Sheetsi saatmist
 
       function start() {
         player = document.getElementById("v1");
@@ -18,64 +19,48 @@
         });
 
         setInterval(capture, 500);
-}
+      }
 
-     function getHairColor(r, g, b) {
-  let avg = (r + g + b) / 3;
+      // arvutab juuksevärvi
+      function getHairColor(r, g, b) {
+        let avg = (r + g + b) / 3;
+        let redDominance = r - (g + b) / 2;
+        let maxDiff = Math.max(Math.abs(r - g), Math.abs(r - b), Math.abs(g - b));
 
-  // kui väga tume → brünett
-  if (avg < 65) return "brünett";
+        if (avg < 65) return "brünett";
+        if (redDominance > 45 && r > 120) return "punapea";
+        if (avg > 160 && maxDiff < 50) return "blond";
+        if (avg >= 65 && avg <= 160) return "brünett";
 
-  // arvutame kui "soe" (punakas) värv on
-  let redDominance = r - (g + b) / 2;
+        return "muu";
+      }
 
-  // arvutame kui tasakaalus värv on (blondile omane)
-  let maxDiff = Math.max(
-    Math.abs(r - g),
-    Math.abs(r - b),
-    Math.abs(g - b)
-  );
+      // saadab värvi Google Sheetsi
+      function sendToSheet(color) {
+        google.script.run.saveData(color);
+      }
 
-  // punapea → punane peab SELGELT domineerima
-  if (redDominance > 45 && r > 120) {
-    return "punapea";
-  }
-
-  // blond → hele + värvid suhteliselt võrdsed
-  if (avg > 160 && maxDiff < 50) {
-    return "blond";
-  }
-
-  // helepruun / keskmine → brünett
-  if (avg >= 65 && avg <= 160) {
-    return "brünett";
-  }
-
-  return "muu";
-}
-      
       function capture() {
         g.drawImage(player, 0, 0, c.width, c.height);
 
-        // Näo keskkoht on siia käsitsi alguses pandud
+        // näo keskkoht (muuda vajadusel)
         let faceX = 110;
         let faceY = 90;
         let faceW = 100;
         let faceH = 100;
 
-        // Väiksem kast vasakul näo kõrval
+        // juukse kast
         let hairW = 30;
         let hairH = 30;
         let hairX = faceX - hairW - 10;
         let hairY = faceY + faceH / 2 - hairH / 2;
 
-        // Piirame, et kast ei läheks kaadrist välja
+        // piirid
         hairX = Math.max(0, hairX);
         hairY = Math.max(0, hairY);
         hairW = Math.min(c.width - hairX, hairW);
         hairH = Math.min(c.height - hairY, hairH);
 
-        // Kast
         g.strokeStyle = "red";
         g.lineWidth = 2;
         g.strokeRect(hairX, hairY, hairW, hairH);
@@ -85,29 +70,44 @@
 
         let data = d.data;
         let rSum = 0, gSum = 0, bSum = 0;
-        let count = data.length / 4;
+        let count = 0;
 
         for (let i = 0; i < data.length; i += 4) {
-          rSum += data[i];
-          gSum += data[i + 1];
-          bSum += data[i + 2];
+          let r = data[i], gVal = data[i+1], b = data[i+2];
+
+          // ignoreeri liiga tumedad pikslid
+          if (r < 30 && gVal < 30 && b < 30) continue;
+
+          rSum += r;
+          gSum += gVal;
+          bSum += b;
+          count++;
         }
+
+        if (count === 0) return;
 
         let r = rSum / count;
         let gVal = gSum / count;
         let b = bSum / count;
 
         let color = getHairColor(r, gVal, b);
-        s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → ${color}`;
+
+        s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → <b>${color}</b>`;
+
+        // SAADA SHEETSI iga 3 sekundi tagant
+        let now = Date.now();
+        if (now - lastSent > 3000) {
+          sendToSheet(color);
+          lastSent = now;
+        }
       }
-      
     </script>
   </head>
 
   <body onload="start()">
     <video id="v1" autoplay style="width: 45%"></video>
-    <canvas id="c1" width="320" height="240" style="width: 45%"></canvas><br />
-    <canvas id="c2" width="40" height="40"></canvas><br />
+    <canvas id="c1" width="320" height="240" style="width: 45%"></canvas><br>
+    <canvas id="c2" width="40" height="40"></canvas><br>
     <span id="s1"></span>
   </body>
 </html>
