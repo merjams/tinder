@@ -28,9 +28,9 @@
         let maxDiff = Math.max(Math.abs(r - g), Math.abs(r - b), Math.abs(g - b));
 
         if (avg < 65) return "brünett";
-        if (redDominance > 45 && r > 120) return "punapea";
         if (avg > 160 && maxDiff < 50) return "blond";
         if (avg >= 65 && avg <= 160) return "brünett";
+        if (redDominance > 45 && r > 120) return "punapea";
 
         return "muu";
       }
