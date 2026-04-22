@@ -37,7 +37,13 @@
 
       // saadab värvi Google Sheetsi
       function sendToSheet(color) {
-        google.script.run.saveData(color);
+        fetch("https://script.google.com/macros/s/AKfycb.../exec", {
+          method: "POST",
+          body: JSON.stringify({ color: color }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
       }
 
       function capture() {
