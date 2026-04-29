@@ -102,7 +102,6 @@
         s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → <b>${color}</b>`;
 
         // SAADA SHEETSI iga 30 sekundi tagant
-        let now = Date.now();
         if (now - lastSent > 30000) {
           sendToSheet(color);
           lastSent = now;
