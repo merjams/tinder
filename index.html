@@ -5,75 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smash or Pass</title>
 
- <style>
-  body {
-    margin: 0;
-    font-family: 'Tahoma', sans-serif;
-    background: #fff5ee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  <style>
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background: #fff5ee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-  .card {
-    background: #fff5ee;
-    backdrop-filter: blur(15px);
-    padding: 20px;
-    border-radius: 25px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  }
+    .card {
+      background: #fff5ee;
+      backdrop-filter: blur(15px);
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
 
-  h1 {
+    h1 {
+      text-align: center;
+      color: #0e2f44;
+      margin-bottom: 20px;
+      font-size: 48px;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    img {
+      width: 320px;
+      height: 550px;
+      object-fit: cover;
+      border-radius: 20px;
+      transition: transform 0.3s ease;
+      cursor: grab;
+    }
+
+    button {
+      width: 150px;
+      height: 260px;
+      border: none;
+      border-radius: 25px;
+      font-size: 26px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: Tahoma, sans-serif;
+    }
+
+    .pass {
+      background: #d1d5db;
+      color: #111827;
+    }
+
+    .smash {
+      background: #ec4899;
+      color: white;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Smash or Pass</h1>
+
+    <div class="content">
+      <button class="pass">PASS</button>
+
+      <img id="photo" src="">
+
+      <button class="smash">SMASH</button>
+    </div>
+  </div>
+
+  <p style="
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
     text-align: center;
-    color: #0e2f44;
-    margin-bottom: 20px;
-    font-size: 48px; /* increased size */
-  }
-
-  .content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  img {
-    width: 320px;
-    height: 550px;
-    object-fit: cover;
-    border-radius: 20px;
-    transition: transform 0.3s ease;
-    cursor: grab;
-  }
-
-  button {
-    width: 150px;
-    height: 260px;
-    border: none;
-    border-radius: 25px;
-    font-size: 26px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    font-family: 'Tahoma', Tahoma, sans-serif;
-  }
-
-  .pass {
-    background: #d1d5db;
-    color: #111827;
-  }
-
-  .smash {
-    background: #ec4899;
-    color: white;
-  }
-
-  button:hover {
-    transform: scale(1.1);
-  }
-</style>
+    color: #cbd5f5;
+    font-size: 13px;
+    opacity: 0.8;
+  ">
+    Piltide allikas: Pinterest
+  </p>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
   const images = [
     { url: "https://i.pinimg.com/736x/14/60/94/1460947fd15187687b8473107f7e57ce.jpg"},
     { url: "https://i.pinimg.com/1200x/99/30/01/993001a8036c6c55d04ef77b5c5c5a77.jpg"},
@@ -117,93 +144,29 @@
     { url: "https://i.pinimg.com/736x/ff/94/1a/ff941a9794b6ea24a26473daf2a67953.jpg"}
                  ];
 
-  let currentIndex = 0;
-  const photo = document.getElementById("photo");
+ let currentIndex = 0;
+      const photo = document.getElementById("photo");
 
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
+      function renderPhoto() {
+        photo.src = images[currentIndex].url;
+      }
 
-  function renderPhoto() {
-    photo.style.transition = "none";
-    photo.style.transform = "translateX(0) rotate(0deg)";
-    photo.style.opacity = "0";
+      function nextPhoto() {
+        currentIndex = (currentIndex + 1) % images.length;
+        renderPhoto();
+      }
 
-    photo.src = images[currentIndex].url;
+      renderPhoto();
 
-    setTimeout(() => {
-      photo.style.transition = "transform 0.5s ease, opacity 0.3s ease";
-      photo.style.opacity = "1";
-    }, 50);
-  }
+      const passBtn = document.querySelector(".pass");
+      const smashBtn = document.querySelector(".smash");
 
-  function nextPhoto() {
-    currentIndex = (currentIndex + 1) % images.length;
-    renderPhoto();
-  }
+      passBtn.addEventListener("click", nextPhoto);
+      smashBtn.addEventListener("click", nextPhoto);
 
-  // DRAG
-  photo.addEventListener("mousedown", startDrag);
-  photo.addEventListener("touchstart", startDrag);
-
-  function startDrag(e) {
-    isDragging = true;
-    startX = e.touches ? e.touches[0].clientX : e.clientX;
-  }
-
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("touchmove", drag);
-
-  function drag(e) {
-    if (!isDragging) return;
-
-    currentX = e.touches ? e.touches[0].clientX : e.clientX;
-    let diff = currentX - startX;
-
-    photo.style.transform = `translateX(${diff}px) rotate(${diff * 0.05}deg)`;
-  }
-
-  document.addEventListener("mouseup", endDrag);
-  document.addEventListener("touchend", endDrag);
-
-  function endDrag() {
-    if (!isDragging) return;
-    isDragging = false;
-
-    let diff = currentX - startX;
-
-    if (diff > 120) {
-      swipeRight();
-    } else if (diff < -120) {
-      swipeLeft();
-    } else {
-      photo.style.transform = "translateX(0)";
-    }
-  }
-
-  renderPhoto();
-  const passBtn = document.querySelector(".pass");
-  const smashBtn = document.querySelector(".smash");
-
-  passBtn.addEventListener("click", () => {
-    nextPhoto();
-  });
-
-  smashBtn.addEventListener("click", () => {
-    nextPhoto();
-  });
-</script>
-</script>
-  <p style="
-  position: fixed;
-  bottom: 15px;
-  width: 100%;
-  text-align: center;
-  color: #cbd5f5;
-  font-size: 13px;
-  opacity: 0.8;
-">
-  Piltide allikas: Pinterest
-</p>
+    });
+  </script>
+</body>
+</html>
 </body>
 </html>
