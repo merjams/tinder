@@ -8,7 +8,7 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Montserrat', SemiBold;
+      font-family: 'Montserrat';
       background: #fff5ee;
       display: flex;
       justify-content: center;
@@ -16,7 +16,7 @@
       height: 100vh;
     }
     .card {
-      background: rgba(30, 41, 59, 0.6);
+      background: #fff5ee;
       backdrop-filter: blur(15px);
       padding: 20px;
       border-radius: 25px;
@@ -79,11 +79,11 @@ button:hover {
     <h1>Smash or Pass</h1>
 
     <div class="content">
-      <button class="pass" onclick="swipeLeft()">PASS</button>
+      <button class="pass" >PASS</button>
 
       <img id="photo">
 
-      <button class="smash" onclick="swipeRight()">SMASH</button>
+      <button class="smash" >SMASH</button>
     </div>
   </div>
 
@@ -154,24 +154,6 @@ button:hover {
   function nextPhoto() {
     currentIndex = (currentIndex + 1) % images.length;
     renderPhoto();
-  }
-
-  function swipeRight() {
-    photo.style.transform = "translateX(1000px) rotate(30deg)";
-    photo.style.opacity = "0";
-
-    setTimeout(() => {
-      nextPhoto();
-    }, 400);
-  }
-
-  function swipeLeft() {
-    photo.style.transform = "translateX(-1000px) rotate(-30deg)";
-    photo.style.opacity = "0";
-
-    setTimeout(() => {
-      nextPhoto();
-    }, 400);
   }
 
   // DRAG
