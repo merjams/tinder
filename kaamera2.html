@@ -18,7 +18,7 @@
           player.srcObject = stream;
         });
 
-        setInterval(capture, 500);
+        setInterval(capture, 3000);
       }
 
       // arvutab juuksevärvi
@@ -36,7 +36,7 @@
       }
 
       // saadab värvi Google Sheetsi
-     function sendToSheet(color) {
+    function sendToSheet(color) {
         fetch("https://script.google.com/macros/s/AKfycbwF_JnARb_kuMu8B_4MFQNo5a_IkkA18lCro76VtxuXClo3psKxKfILPlszt1k1zBnD/exec", {
           method: "POST",
           body: JSON.stringify({ color }),
@@ -103,7 +103,7 @@
 
         // SAADA SHEETSI iga 30 sekundi tagant
         let now = Date.now();
-        if (now - lastSent > 300000) {
+        if (now - lastSent > 30000) {
           sendToSheet(color);
           lastSent = now;
         }
