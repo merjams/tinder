@@ -5,87 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smash or Pass</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat';
-      background: #fff5ee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      background: #fff5ee;
-      backdrop-filter: blur(15px);
-      padding: 20px;
-      border-radius: 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    }
+ <style>
+  body {
+    margin: 0;
+    font-family: 'Tahoma', sans-serif;
+    background: #fff5ee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
-    h1 {
-      text-align: center;
-      color: #0e2f44;
-      margin-bottom: 20px;
-    }
+  .card {
+    background: #fff5ee;
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
 
-    .content {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+  h1 {
+    text-align: center;
+    color: #0e2f44;
+    margin-bottom: 20px;
+    font-size: 48px; /* increased size */
+  }
 
-    img {
-      width: 320px;
-      height: 550px;
-      object-fit: cover;
-      border-radius: 20px;
-      transition: transform 0.3s ease;
-      cursor: grab;
-    }
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
-    button {
-  width: 150px;
-  height: 260px;
-  border: none;
-  border-radius: 25px;
-  font-size: 26px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-}
+  img {
+    width: 320px;
+    height: 550px;
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+    cursor: grab;
+  }
 
-.pass {
-  background: #d1d5db;
-  color: #111827;
-}
+  button {
+    width: 150px;
+    height: 260px;
+    border: none;
+    border-radius: 25px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Tahoma', Tahoma, sans-serif;
+  }
 
-.smash {
-  background: #ec4899;
-  color: white;
-}
+  .pass {
+    background: #d1d5db;
+    color: #111827;
+  }
 
-button:hover {
-  transform: scale(1.08);
-}
-    button:hover {
-      transform: scale(1.1);
-    }
-  </style>
-</head>
+  .smash {
+    background: #ec4899;
+    color: white;
+  }
 
-<body>
-  <div class="card">
-    <h1>Smash or Pass</h1>
-
-    <div class="content">
-      <button class="pass" >PASS</button>
-
-      <img id="photo">
-
-      <button class="smash" >SMASH</button>
-    </div>
-  </div>
+  button:hover {
+    transform: scale(1.1);
+  }
+</style>
 
   <script>
   const images = [
