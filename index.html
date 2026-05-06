@@ -24,6 +24,10 @@
       padding: 20px;
       border: 4px solid #000;
       box-shadow: 8px 8px 0 #103651;
+      <div class="scoreboard">
+      SMASH: <span id="smashCount">000</span> |
+      PASS: <span id="passCount">000</span>
+      </div>
     }
 
     h1 {
@@ -80,7 +84,14 @@
       color: #fff;
       box-shadow: 0 0 12px #00b159, 6px 6px 0 #000;
     }
-
+      
+    .scoreboard {
+      margin-top: 20px;
+      font-size: 12px;
+      text-align: center;
+      color: #fff;
+      text-shadow: 2px 2px #000;
+}
     button::before {
       content: "";
       position: absolute;
@@ -177,22 +188,41 @@
       ];
 
       let currentIndex = 0;
-      const photo = document.getElementById("photo");
+let smashCount = 0;
+let passCount = 0;
 
-      function renderPhoto() {
-        photo.src = images[currentIndex].url;
-      }
+const photo = document.getElementById("photo");
+const smashDisplay = document.getElementById("smashCount");
+const passDisplay = document.getElementById("passCount");
 
-      function nextPhoto() {
-        currentIndex = (currentIndex + 1) % images.length;
-        renderPhoto();
-      }
+function renderPhoto() {
+  photo.src = images[currentIndex].url;
+}
 
-      renderPhoto();
+function updateScore() {
+  smashDisplay.textContent = smashCount.toString().padStart(3, "0");
+  passDisplay.textContent = passCount.toString().padStart(3, "0");
+}
 
-      document.querySelector(".pass").addEventListener("click", nextPhoto);
-      document.querySelector(".smash").addEventListener("click", nextPhoto);
-    });
+function nextPhoto() {
+  currentIndex = (currentIndex + 1) % images.length;
+  renderPhoto();
+}
+
+renderPhoto();
+updateScore();
+
+document.querySelector(".pass").addEventListener("click", () => {
+  passCount++;
+  updateScore();
+  nextPhoto();
+});
+
+document.querySelector(".smash").addEventListener("click", () => {
+  smashCount++;
+  updateScore();
+  nextPhoto();
+});
   </script>
 </body>
 </html>
