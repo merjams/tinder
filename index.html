@@ -1,152 +1,126 @@
 <!DOCTYPE html>
 <html lang="et">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SMASH OR PASS</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SMASH OR PASS</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: "Press Start 2P", monospace;
-      background: #e5e5e5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .card {
-      background: #e5e5e5;
-      padding: 20px;
-      border: 4px solid #000;
-      box-shadow: 8px 8px 0 #103651;
-    }
-
-    h1 {
-      text-align: center;
-      color: #000;
-      margin-bottom: 20px;
-      font-size: 20px;
-      text-shadow: 2px 2px #00000022;
-    }
-
-    .content {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    img {
-      width: 320px;
-      height: 550px;
-      object-fit: cover;
-      border: 4px solid #000;
-      image-rendering: pixelated;
-    }
-
-   
-    button {
-      width: 150px;
-      height: 260px;
-      border: 4px solid #000;
-      border-radius: 0;
-      font-size: 12px;
-      font-family: "Press Start 2P", monospace;
-      cursor: pointer;
-      position: relative;
-      text-transform: uppercase;
-
-      
-      box-shadow: 6px 6px 0 #103651;
-
-     
-      text-shadow: 2px 2px #000;
-    }
-
-   
-    .pass {
-      background: #d11141 ;
-      color: #fff;
-      box-shadow: 0 0 12px #d11141, 6px 6px 0 #000;
-    }
-
-   
-    .smash {
-      background: #00b159 ;
-      color: #fff;
-      box-shadow: 0 0 12px #00b159, 6px 6px 0 #000;
-    }
-      
-    .scoreboard {
-      margin-top: 20px;
-      font-size: 12px;
-      text-align: bottom center;
-      color: #fff;
-      text-shadow: 2px 2px #000;
+<style>
+body {
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  background: #e5e5e5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-    button::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 6px;
-      background: rgba(255,255,255,0.3);
-    }
 
-   
-    button:active {
-      transform: translate(6px, 6px) scale(0.98);
-      box-shadow: 0px 0px 0 #000;
-    }
+/* CARD */
+.card {
+  background: #e5e5e5;
+  padding: 20px;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0 #103651;
+  text-align: center;
+}
 
-   
-    button:hover {
-      filter: brightness(1.1);
-    }
+h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
-  </style>
+/* LAYOUT */
+.content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* IMAGE */
+img {
+  width: 320px;
+  height: 550px;
+  object-fit: cover;
+  border: 4px solid #000;
+}
+
+/* BUTTONS */
+button {
+  width: 150px;
+  height: 260px;
+  border: 4px solid #000;
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 6px 6px 0 #000;
+}
+
+.pass {
+  background: #d11141;
+  color: #fff;
+}
+
+.smash {
+  background: #00b159;
+  color: #fff;
+}
+
+button:active {
+  transform: translate(6px, 6px);
+  box-shadow: none;
+}
+
+/* SCORE */
+.scoreboard {
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+/* GAME OVER */
+#gameOver {
+  display: none;
+  margin-top: 20px;
+}
+
+#gameOver button {
+  width: 200px;
+  height: 60px;
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>SMASH OR PASS</h1>
 
-    <div class="content">
-      <button class="pass">PASS</button>
+<div class="card">
+  <h1>SMASH OR PASS</h1>
 
-    <div class="scoreboard">
-      SMASH: <span id="smashCount">000</span> |
-      PASS: <span id="passCount">000</span>
-      </div>
-
-      <img id="photo" src="">
-
-      <button class="smash">SMASH</button>
-    </div>
+  <div class="content">
+    <button class="pass">PASS</button>
+    <img id="photo" src="">
+    <button class="smash">SMASH</button>
   </div>
 
-  <p style="
-    position: fixed;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    color: #999999;
-    font-size: 10px;
-    opacity: 0.8;
-    font-family: 'Press Start 2P', monospace;
-  ">
-    PILTIDE ALLIKAS: PINTEREST
-  </p>
+  <div class="scoreboard">
+    SMASH: <span id="smashCount">000</span> |
+    PASS: <span id="passCount">000</span><br>
+    SMASH RATE: <span id="smashRate">0%</span>
+  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const images = [
-                        { url: "https://i.pinimg.com/736x/14/60/94/1460947fd15187687b8473107f7e57ce.jpg"}, 
+  <div id="gameOver">
+    <p>GAME OVER</p>
+    <p>PRESS R TO RESTART</p>
+    <button id="restartBtn">RESTART</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const images = [ { url: "https://i.pinimg.com/736x/14/60/94/1460947fd15187687b8473107f7e57ce.jpg"}, 
                         { url: "https://i.pinimg.com/1200x/99/30/01/993001a8036c6c55d04ef77b5c5c5a77.jpg"}, 
                         { url: "https://i.pinimg.com/736x/83/dd/40/83dd40f35a81c6a9eed944d1e7f6535f.jpg"}, 
                         { url: "https://i.pinimg.com/736x/3b/89/7b/3b897b01b0fc7ae3eafe196b143630b1.jpg"}, 
@@ -186,45 +160,94 @@
                         { url: "https://i.pinimg.com/736x/75/b8/7b/75b87b2fd1414d6ecc831df798abebaa.jpg"},
                         { url: "https://i.pinimg.com/736x/7b/76/a8/7b76a8c9a42f31ca39cbe5ade6590428.jpg"}, 
                         { url: "https://i.pinimg.com/736x/ff/94/1a/ff941a9794b6ea24a26473daf2a67953.jpg"}
-      ];
 
-      let currentIndex = 0;
-let smashCount = 0;
-let passCount = 0;
 
-const photo = document.getElementById("photo");
-const smashDisplay = document.getElementById("smashCount");
-const passDisplay = document.getElementById("passCount");
+  ];
 
-function renderPhoto() {
-  photo.src = images[currentIndex].url;
-}
+  let index = 0;
+  let smash = 0;
+  let pass = 0;
 
-function updateScore() {
-  smashDisplay.textContent = smashCount.toString().padStart(3, "0");
-  passDisplay.textContent = passCount.toString().padStart(3, "0");
-}
+  const photo = document.getElementById("photo");
+  const smashCount = document.getElementById("smashCount");
+  const passCount = document.getElementById("passCount");
+  const rate = document.getElementById("smashRate");
 
-function nextPhoto() {
-  currentIndex = (currentIndex + 1) % images.length;
-  renderPhoto();
-}
+  const passBtn = document.querySelector(".pass");
+  const smashBtn = document.querySelector(".smash");
 
-renderPhoto();
-updateScore();
+  const gameOver = document.getElementById("gameOver");
+  const restartBtn = document.getElementById("restartBtn");
 
-document.querySelector(".pass").addEventListener("click", () => {
-  passCount++;
-  updateScore();
-  nextPhoto();
+  function render() {
+    photo.src = images[index].url;
+  }
+
+  function update() {
+    smashCount.textContent = smash.toString().padStart(3, "0");
+    passCount.textContent = pass.toString().padStart(3, "0");
+
+    const total = smash + pass;
+    rate.textContent = total === 0 ? "0%" : Math.round((smash / total) * 100) + "%";
+  }
+
+  function next() {
+    index++;
+
+    if (index >= images.length) {
+      endGame();
+      return;
+    }
+
+    render();
+  }
+
+  function endGame() {
+    photo.style.display = "none";
+    passBtn.disabled = true;
+    smashBtn.disabled = true;
+    gameOver.style.display = "block";
+  }
+
+  function restart() {
+    index = 0;
+    smash = 0;
+    pass = 0;
+
+    photo.style.display = "block";
+    passBtn.disabled = false;
+    smashBtn.disabled = false;
+    gameOver.style.display = "none";
+
+    render();
+    update();
+  }
+
+  passBtn.addEventListener("click", () => {
+    pass++;
+    update();
+    next();
+  });
+
+  smashBtn.addEventListener("click", () => {
+    smash++;
+    update();
+    next();
+  });
+
+  restartBtn.addEventListener("click", restart);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() === "r") {
+      restart();
+    }
+  });
+
+  render();
+  update();
+
 });
+</script>
 
-document.querySelector(".smash").addEventListener("click", () => {
-  smashCount++;
-  updateScore();
-  nextPhoto();
-});
-});
-  </script>
 </body>
 </html>
