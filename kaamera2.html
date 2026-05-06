@@ -103,7 +103,7 @@
 
         // SAADA SHEETSI iga 3 sekundi tagant
         let now = Date.now();
-        if (now - lastSent > 3000) {
+        if (now - lastSent > 30000) {
           sendToSheet(color);
           lastSent = now;
         }
