@@ -50,7 +50,7 @@
       function capture() {
         g.drawImage(player, 0, 0, c.width, c.height);
 
-        // näo keskkoht (muuda vajadusel)
+        // näo keskkoht 
         let faceX = 110;
         let faceY = 90;
         let faceW = 100;
@@ -101,7 +101,7 @@
 
         s1.innerHTML = `RGB: ${Math.round(r)}, ${Math.round(gVal)}, ${Math.round(b)} → <b>${color}</b>`;
 
-        // SAADA SHEETSI iga 3 sekundi tagant
+        // SAADA SHEETSI iga 30 sekundi tagant
         let now = Date.now();
         if (now - lastSent > 30000) {
           sendToSheet(color);
